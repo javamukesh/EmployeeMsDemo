@@ -1,0 +1,259 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Slack Incoming Webhook
+externalDocs:
+  url: https://api.slack.com/incoming-webhooks
+servers:
+- url: http://localhost:8080/rest
+tags:
+- name: Employee
+paths:
+  /addEmployee:
+    post:
+      tags:
+      - Employee
+      summary: add a employee
+      requestBody:
+        description: add employee
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEmployeeRequest'
+      responses:
+        '200':
+          description: A User object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateEmployeeResponse'
+                
+
+  /getEmployees:
+    get:
+      tags:
+      - Employee
+      summary: get eomloyees
+      requestBody:
+        description: get eomloyees
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetEmployeeRequest'
+      responses:
+        '200':
+          description: A User object
+          content:
+            application/json:
+              schema:
+                type: array
+                items:  
+                  $ref: '#/components/schemas/GetEmployeeResponse'
+                  
+  /updateEmployee:
+    put:
+      tags:
+      - Employee
+      summary: updateEmployee
+      requestBody:
+        description: updateEmployee
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEmployeeRequest'
+      responses:
+        '200':
+          description: A User object
+          content:
+            application/json:
+              schema:  
+                 $ref: '#/components/schemas/UpdateEmployeeResponse'
+                 
+  /deleteEmployee:
+    delete:
+      tags:
+      - Employee
+      summary: deleteEmployee
+      requestBody:
+        description: deleteEmployee
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteEmployeeRequest'
+      responses:
+        '200':
+          description: A User object
+          content:
+            application/json:
+              schema:  
+                 $ref: '#/components/schemas/DeleteEmployeeResponse'                                   
+                                
+components:
+  schemas:
+    CreateEmployeeRequest:
+      title: To create employee
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: firstName
+        lastName:
+          type: string
+          description: lastName
+        age:
+          type: integer
+          format: int32
+          description: age
+        contactNumber:
+          type: integer
+          format: int64
+          description: contactNumber 
+      required:
+      - firstName
+      - lastName
+      - age
+      - contactNumber
+    
+    CreateEmployeeResponse:
+      title: Employee creation response
+      type: object
+      properties:
+        message:
+          type: string
+          description: message
+        id:
+          type: integer
+          format: int64
+          description: id
+        state:  
+            $ref: '#/components/schemas/State'
+          
+          
+    GetEmployeeRequest:
+      title: To create employee
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: firstName
+        lastName:
+          type: string
+          description: lastName
+        age:
+          type: integer
+          format: int32
+          description: age
+        contactNumber:
+          type: integer
+          format: int64
+          description: contactNumber
+        state:  
+            $ref: '#/components/schemas/State'
+    
+    GetEmployeeResponse:
+      title: Get Employees
+      type: object
+      properties:
+        id: 
+          type: integer
+          format: int64
+          description: id
+        firstName:
+          type: string
+          description: firstName
+        lastName:
+          type: string
+          description: lastName
+        age:
+          type: integer
+          format: int32
+          description: age
+        contactNumber:
+          type: integer
+          format: int64
+          description: contactNumber
+        state:  
+            $ref: '#/components/schemas/State'        
+                    
+    UpdateEmployeeRequest:
+      title: To update employee
+      type: object
+      properties:
+        id: 
+          type: integer
+          format: int64
+          description: id
+        firstName:
+          type: string
+          description: firstName
+        lastName:
+          type: string
+          description: lastName
+        age:
+          type: integer
+          format: int32
+          description: age
+        contactNumber:
+          type: integer
+          format: int64
+          description: contactNumber
+        state:  
+            $ref: '#/components/schemas/State'       
+      required:
+      - id          
+    
+    UpdateEmployeeResponse:
+      title: Update Employees
+      type: object
+      properties:
+        id: 
+          type: integer
+          format: int64
+          description: id
+        firstName:
+          type: string
+          description: firstName
+        lastName:
+          type: string
+          description: lastName
+        age:
+          type: integer
+          format: int32
+          description: age
+        contactNumber:
+          type: integer
+          format: int64
+          description: contactNumber
+        state:  
+            $ref: '#/components/schemas/State'          
+          
+    DeleteEmployeeRequest:
+      title: To delete employee
+      type: object
+      properties:
+        id: 
+          type: integer
+          format: int64
+          description: id
+      required:
+      - id          
+    
+    DeleteEmployeeResponse:
+      title: Update Employees
+      type: object
+      properties:
+        message:
+          type: string
+          description: message
+                    
+    State:
+      type: string
+      enum:
+        - ADDED
+        - IN-CHECK
+        - APPROVED
+        - ACTIVE
